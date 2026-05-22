@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ITPro2 第1-6回 中間テスト対策</title>
+  <style>
+    :root {
+      --ink: #111;
+      --muted: #555;
+      --line: #777;
+      --soft-line: #ddd;
+      --paper: #fff;
+      --soft: #f7f7f7;
+      --accent: #22577a;
+      --accent-2: #1f7a4d;
+      --warn: #8a5a00;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Yu Gothic", "Meiryo", system-ui, sans-serif;
+      line-height: 1.58;
+      margin: 28px auto;
+      max-width: 1100px;
+      padding: 0 12px 42px;
+      color: var(--ink);
+      background: var(--paper);
+    }
+    h1 { font-size: 24px; margin: 1.5em 0 0.45em; }
+    h2 {
+      font-size: 20px;
+      margin: 2em 0 0.7em;
+      border-bottom: 2px solid #222;
+      padding-bottom: 4px;
+    }
+    h3 {
+      font-size: 17px;
+      border-bottom: 1px solid #aaa;
+      margin: 1.4em 0 0.5em;
+      padding-bottom: 3px;
+    }
+    p { margin: 0.45em 0 0.85em; }
+    a { color: #064f8f; }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 0.6em 0 1em;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 6px 8px;
+      vertical-align: top;
+    }
+    th { background: #eee; }
+    pre {
+      background: #f6f6f6;
+      border: 1px solid var(--soft-line);
+      padding: 10px;
+      overflow-x: auto;
+      line-height: 1.35;
+      white-space: pre;
+    }
+    code, var, kbd {
+      font-family: "Consolas", "Menlo", "Courier New", monospace;
+      font-size: 0.96em;
+    }
+    kbd {
+      border: 1px solid #aaa;
+      border-bottom-width: 2px;
+      border-radius: 4px;
+      padding: 0 4px;
+      background: #fafafa;
+    }
+    .note {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 1em;
+    }
+    .toc {
+      border: 1px solid #bbb;
+      background: var(--soft);
+      padding: 12px 16px;
+      margin: 1em 0 1.8em;
+    }
+    .toc a {
+      display: inline-block;
+      margin: 4px 16px 4px 0;
+      white-space: nowrap;
+    }
+    .bundle-section {
+      margin-top: 2em;
+      padding-top: 0.2em;
+      border-top: 4px solid #333;
+    }
+    .problem { margin: 1em 0 1.55em; }
+    .subproblem { margin: 0.65em 0; }
+    .solution {
+      display: none;
+      background: #eef8ee;
+      border-left: 4px solid var(--accent-2);
+      padding: 8px 10px;
+      margin: 0.45em 0 1em;
+    }
+    .hint {
+      background: #fff8e8;
+      border-left: 4px solid var(--warn);
+      padding: 8px 10px;
+      margin: 0.7em 0 1em;
+    }
+    body.show-solutions .solution,
+    .bundle-section.show-answer .solution,
+    .test.show-answer .solution,
+    .problem.show-answer .solution { display: block; }
+    .bundle-section > h1,
+    .test > h2,
+    .problem > h2,
+    .problem > h3 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .answer-toggle {
+      flex: 0 0 auto;
+      border: 1px solid #555;
+      background: #fff;
+      color: #111;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font: inherit;
+      font-size: 14px;
+      line-height: 1.2;
+      cursor: pointer;
+    }
+    .answer-toggle:hover { border-color: var(--accent); }
+    .answer-toggle[aria-pressed="true"] {
+      background: var(--accent-2);
+      border-color: var(--accent-2);
+      color: #fff;
+    }
+    .compact td, .compact th { padding: 3px 5px; }
+    .tag {
+      display: inline-block;
+      border: 1px solid #bbb;
+      border-radius: 999px;
+      padding: 1px 8px;
+      margin: 2px 4px 2px 0;
+      background: #fafafa;
+      font-size: 13px;
+    }
+    .score {
+      color: var(--accent);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      align-items: start;
+    }
+    .mini-card {
+      border: 1px solid #bbb;
+      background: #fafafa;
+      padding: 10px 12px;
+    }
+    .mini-card h3 { margin-top: 0; }
+    @media (max-width: 720px) {
+      body { margin-top: 18px; }
+      .bundle-section > h1,
+      .test > h2,
+      .problem > h2,
+      .problem > h3 {
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+      .answer-toggle {
+        font-size: 13px;
+        padding: 7px 9px;
+      }
+      .two-col { grid-template-columns: 1fr; }
+      table { font-size: 14px; }
+    }
+    @media print {
+      .note, .toc, .answer-toggle { display: none; }
+      body.show-solutions .solution, .solution { display: block; }
+      .problem { page-break-inside: avoid; }
+      a { color: #111; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <h1 id="top">ITPro2 第1-6回 中間テスト対策</h1>
+  <p class="note">`compiler_1_5` と同じ形式の、GitHub Pages向け単一HTMLです。各問題の「解答を表示」ボタン、または <kbd>S</kbd> キーで解答の表示/非表示を切り替えられます。</p>
+  <div class="toc">
+    <strong>目次:</strong>
+    <a href="#range">範囲マップ</a>
+    <a href="#trend">過去問傾向</a>
+    <a href="#basic">模擬テスト基本セット</a>
+    <a href="#variants">過去問型バリエーション</a>
+    <a href="#hands-on">実装トレーニング</a>
+    <a href="#memorize">直前暗記</a>
+    <a href="#sources">参照リンク</a>
+  </div>
+
+  <section class="bundle-section" id="range">
+    <h1>範囲マップ</h1>
+    <p>中間テストが第1-6回中心なら、流れは「静的Webページ」から「Rubyで生成するWebページ」、さらに「フォーム入力」と「データベース」までです。</p>
+    <table>
+      <tr><th>回</th><th>テーマ</th><th>必ず説明できるようにすること</th><th>練習の型</th></tr>
+      <tr><td>1</td><td>HTML Markup</td><td>構造と見た目の分離、要素、属性、入れ子、見出し、リスト、汎用要素、構造的マークアップ</td><td>HTML断片を書く、誤った入れ子を直す、要素の目的を説明</td></tr>
+      <tr><td>2</td><td>CSS</td><td>CSS規則、セレクタ、プロパティ、値、link要素、色、フォント、長さ、箱モデル、時計回り指定、継承と衝突</td><td>CSSを書く、border/margin/paddingの上下左右を読む、分類問題</td></tr>
+      <tr><td>3</td><td>Ruby First Steps</td><td>型、演算子、変換、識別子、puts/print/gets、文字列補完、Range、each、block、def/if/end</td><td>C風コードをRubyへ、出力結果を読む、簡単なメソッドを書く</td></tr>
+      <tr><td>4</td><td>CGI and Templates</td><td>CGIの入出力、Content-Typeヘッダ、Webサーバの役割、ERBの3種類のタグ、CGIとERBの比較</td><td>ERBでリストや表を書く、CGIのエラー原因を説明</td></tr>
+      <tr><td>5</td><td>Query Parts and Web Forms</td><td>URI/URL/IRI、query part、name=value、form、input、label、submit、GET、パラメータ処理、デフォルト値</td><td>フォームを書く、クエリを読み取る、パラメータ検証の流れを説明</td></tr>
+      <tr><td>6</td><td>Databases and Active Record</td><td>データベース、表、行、列、主キー、ORM、Active Record、規約、new/save/all/where/order、getter/setter</td><td>ORM対応表、DBからの取得コード、統計値計算の説明</td></tr>
+    </table>
+  </section>
+
+  <section class="bundle-section" id="trend">
+    <h1>過去問傾向</h1>
+    <p>2019/2022/2023/2024/2025年の期末では、単語暗記だけでなく「分類して説明する」「コードを書く」「処理の流れを図や文章で説明する」問題が多いです。中間向けには次を重点化します。</p>
+    <ul>
+      <li><span class="tag">コード分類</span> HTML/CSS/Ruby/Rails/コマンド/ファイル名を見分け、1文で説明する。</li>
+      <li><span class="tag">CSS</span> shorthand、箱モデル、優先順位、継承を読めるようにする。</li>
+      <li><span class="tag">ERB</span> `each` と `&lt;%=` を使って表やリストを生成する。</li>
+      <li><span class="tag">Ruby</span> `end` で閉じる構造、型変換、Range/Arrayの反復、CからRubyへの置換。</li>
+      <li><span class="tag">Q&A型</span> 典型エラーの意味と、どこを見るかを答える。</li>
+      <li><span class="tag">HTTPからDB</span> ブラウザ、クエリ、テンプレート、Active Record、データベースの流れを説明する。</li>
+      <li><span class="tag">HTML要素</span> 2025年分ではリスト要素・ページ全体構造の要素が直接問われている。</li>
+    </ul>
+    <div class="hint">期末過去問にはRails後半の内容も含まれます。第1-6回の中間では、Railsコマンドやmigrationの細部より、Active Recordとデータベースの考え方、Web入力から処理までの流れを優先します。</div>
+  </section>
+
+  <section class="bundle-section" id="basic">
+    <h1>模擬テスト 基本セット</h1>
+
+    <div class="problem">
+      <h2>1. 用語の説明 <span class="score">18点</span></h2>
+      <p>次の用語について、日本語訳または意味と、ITPro2での役割を1-2文で説明しなさい。</p>
+      <ol>
+        <li>HTML</li>
+        <li>element</li>
+        <li>attribute</li>
+        <li>structural markup</li>
+        <li>CSS rule</li>
+        <li>selector</li>
+        <li>box model</li>
+        <li>Ruby block</li>
+        <li>string interpolation</li>
+        <li>CGI</li>
+        <li>ERB</li>
+        <li>query part</li>
+        <li>form</li>
+        <li>database</li>
+        <li>primary key</li>
+        <li>ORM</li>
+        <li>Active Record</li>
+        <li>convention over configuration</li>
+      </ol>
+      <div class="solution">
+        <ol>
+          <li>HTML: Webページの構造と意味をマークアップする言語。</li>
+          <li>element: `&lt;p&gt;...&lt;/p&gt;` のように、開始タグ・内容・終了タグなどで表される構成単位。</li>
+          <li>attribute: 開始タグ内で要素に追加情報を与えるもの。例: `id`, `class`, `lang`, `href`。</li>
+          <li>structural markup: 見た目ではなく、段落・見出し・強調など文書上の役割を表すマークアップ。</li>
+          <li>CSS rule: セレクタと宣言ブロックからなるスタイル指定。例: `p { color: navy; }`。</li>
+          <li>selector: CSSを適用する対象を選ぶ部分。例: `p`, `.warning`, `#main`, `p code`。</li>
+          <li>box model: 内容、padding、border、marginから要素の箱を考えるモデル。</li>
+          <li>Ruby block: メソッド呼び出しに渡す処理のまとまり。`do ... end` や `{ ... }` で書く。</li>
+          <li>string interpolation: ダブルクォート文字列中の `#{...}` で式の値を埋め込む機能。</li>
+          <li>CGI: Webサーバが外部プログラムを呼び出し、標準出力からWebページを返す仕組み。</li>
+          <li>ERB: HTMLの中にRubyコードを埋め込むテンプレート。`.html.erb` で使う。</li>
+          <li>query part: URIの `?` より後ろ。`name=value&amp;name2=value2` の形でパラメータを送る。</li>
+          <li>form: ユーザ入力を送るHTML要素。`input`, `label`, `submit` などを含む。</li>
+          <li>database: 多数のデータを構造化して保存・検索する仕組み。</li>
+          <li>primary key: 表の各行を一意に識別する列。典型例は `id`。</li>
+          <li>ORM: オブジェクト指向言語のオブジェクトと、リレーショナルDBの表・行を対応させる仕組み。</li>
+          <li>Active Record: Railsで使われるORM。表の行をRubyオブジェクトとして扱える。</li>
+          <li>convention over configuration: 規約に従えば細かい設定を書かずに動くというRailsの考え方。</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="problem">
+      <h2>2. HTML構造を書く <span class="score">12点</span></h2>
+      <p>「RubyとWebアプリ」という題名のWebページを作る。次の条件を満たすHTMLを書きなさい。</p>
+      <ul>
+        <li>`lang` は日本語。</li>
+        <li>`head` には `meta charset` と `title` を入れる。</li>
+        <li>`body` には `header`, `nav`, `main`, `section`, `footer` を使う。</li>
+        <li>`nav` にはページ内リンクを2つ入れる。</li>
+        <li>本文では `strong`, `em`, `code`, `abbr` を自然に使う。</li>
+      </ul>
+      <div class="solution">
+<pre>&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;RubyとWebアプリ&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;
+    &lt;h1&gt;RubyとWebアプリ&lt;/h1&gt;
+  &lt;/header&gt;
+  &lt;nav&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href="#ruby"&gt;Ruby&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="#web"&gt;Webアプリ&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+  &lt;main&gt;
+    &lt;section id="ruby"&gt;
+      &lt;h2&gt;Ruby&lt;/h2&gt;
+      &lt;p&gt;&lt;strong&gt;Ruby&lt;/strong&gt; では &lt;code&gt;each&lt;/code&gt; をよく使う。&lt;/p&gt;
+    &lt;/section&gt;
+    &lt;section id="web"&gt;
+      &lt;h2&gt;Webアプリ&lt;/h2&gt;
+      &lt;p&gt;&lt;abbr title="Common Gateway Interface"&gt;CGI&lt;/abbr&gt; は
+      &lt;em&gt;動的&lt;/em&gt;なページを作る方法の一つである。&lt;/p&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+  &lt;footer&gt;
+    &lt;p&gt;ITPro2 practice&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+        <p>採点では、見た目を変えるために見出しを乱用していないか、入れ子が正しいか、属性値が引用符で囲まれているかも見られやすいです。</p>
+      </div>
+    </div>
+
+    <div class="problem">
+      <h2>3. CSSを読む・書く <span class="score">16点</span></h2>
+      <p class="subproblem">次のCSSについて、各セレクタの種類と、指定される内容を説明しなさい。</p>
+<pre>main p code {
+  background-color: #f6f6f6;
+  padding: 0.1em 0.3em;
+}
+
+.warning {
+  color: red;
+  border: 2px solid orange;
+}
+
+#summary {
+  margin: 1em 2em 3em 4em;
+}</pre>
+      <p class="subproblem">さらに、`#summary` の margin の上・右・下・左を答えなさい。</p>
+      <div class="solution">
+        <ul>
+          <li>`main p code`: 子孫結合子。`main` の中の `p` の中にある `code` 要素に適用。背景色と内側余白を指定。</li>
+          <li>`.warning`: class selector。`class="warning"` を持つ要素に適用。文字色を赤、枠を2px solid orangeにする。</li>
+          <li>`#summary`: id selector。`id="summary"` の要素に適用。外側余白を指定。</li>
+        </ul>
+        <p>時計回りなので、`margin: 1em 2em 3em 4em;` は上1em、右2em、下3em、左4em。</p>
+      </div>
+    </div>
+
+    <div class="problem">
+      <h2>4. Rubyの構文 <span class="score">18点</span></h2>
+      <p>次のC風の関数と同じ働きをするRubyのメソッドを書きなさい。0から100までの点数 `mark` と実数 `exponent` を受け取り、変換後の点数を整数で返す。</p>
+<pre>int convert_mark(int mark, double exponent)
+{
+    return round(pow(mark, exponent) * (100.0 / pow(100, exponent)));
+}</pre>
+      <p>その後、0, 10, 20, ..., 100 について、`n points -&gt; converted points` の形で出力するRubyコードも書きなさい。</p>
+      <div class="solution">
+<pre>def convert_mark(mark, exponent)
+  (mark**exponent * (100.0 / 100**exponent)).round
+end
+
+(0..100).step(10).each do |n|
+  puts "#{n} points -&gt; #{convert_mark(n, 0.5)} points"
+end</pre>
+        <p>`**` は累乗、`.round` は四捨五入、`#{...}` は文字列補完です。`(0..100)` は両端を含むRangeです。</p>
+      </div>
+    </div>
+
+    <div class="problem">
+      <h2>5. CGIとERBの比較 <span class="score">14点</span></h2>
+      <p>CGIとERBについて、次の表を埋めなさい。</p>
+      <table>
+        <tr><th></th><th>CGI</th><th>ERB</th></tr>
+        <tr><th>ファイル拡張子</th><td></td><td></td></tr>
+        <tr><th>先頭に必要なもの</th><td></td><td></td></tr>
+        <tr><th>HTMLの書き方</th><td></td><td></td></tr>
+        <tr><th>Rubyコードを書く場所</th><td></td><td></td></tr>
+        <tr><th>向いていること</th><td></td><td></td></tr>
+      </table>
+      <p>さらに、ERBの `&lt;% ... %&gt;`, `&lt;%= ... %&gt;`, `&lt;%# ... %&gt;` の違いを説明しなさい。</p>
+      <div class="solution">
+        <table>
+          <tr><th></th><th>CGI</th><th>ERB</th></tr>
+          <tr><th>ファイル拡張子</th><td>授業では `.rb`</td><td>`.html.erb`</td></tr>
+          <tr><th>先頭に必要なもの</th><td>`puts "Content-Type: text/html;charset=UTF-8\r\n\r\n"`</td><td>`&lt;!doctype html&gt;` または `&lt;!DOCTYPE html&gt;`</td></tr>
+          <tr><th>HTMLの書き方</th><td>`puts` や `print` で文字列として出力</td><td>HTMLをそのまま書く</td></tr>
+          <tr><th>Rubyコードを書く場所</th><td>普通のRubyプログラムとして直接書く</td><td>`&lt;% ... %&gt;` の中に埋め込む</td></tr>
+          <tr><th>向いていること</th><td>Rubyだけで処理を理解しやすい</td><td>HTML中心のページを読みやすく保てる</td></tr>
+        </table>
+        <ul>
+          <li>`&lt;% ... %&gt;`: Rubyを実行するが、結果は出力しない。</li>
+          <li>`&lt;%= ... %&gt;`: Ruby式を実行し、その結果をHTMLに出力する。</li>
+          <li>`&lt;%# ... %&gt;`: ERB内のコメント。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="problem">
+      <h2>6. Webフォームとクエリ <span class="score">16点</span></h2>
+      <p>`count` と `exponent` をGETで送るフォームを書きなさい。フォームの送信先は現在のページでよい。各入力欄にはlabelを付け、初期値はそれぞれ `10`, `0.5` とする。</p>
+      <p>また、サーバ側で `servlet_request.query` から値を取り出すときの注意点を3つ書きなさい。</p>
+      <div class="solution">
+<pre>&lt;form method="get"&gt;
+  &lt;p&gt;
+    &lt;label for="count"&gt;Count: &lt;/label&gt;
+    &lt;input type="text" id="count" name="count" value="10"&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;label for="exponent"&gt;Exponent: &lt;/label&gt;
+    &lt;input type="text" id="exponent" name="exponent" value="0.5"&gt;
+  &lt;/p&gt;
+  &lt;input type="submit" value="Calculate"&gt;
+&lt;/form&gt;</pre>
+        <ol>
+          <li>取り出した値は文字列なので、数値計算前に `.to_i` や `.to_f` で変換する。</li>
+          <li>パラメータが存在しない場合は `nil`、値が空の場合は `""` になりうるので確認する。</li>
+          <li>文字や負の値など、使えない入力にはデフォルト値を使うなどの処理が必要。</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="problem">
+      <h2>7. データベースとActive Record <span class="score">16点</span></h2>
+      <p>次の対応表を完成させなさい。</p>
+      <table>
+        <tr><th>データベース側</th><th>Ruby/Active Record側</th><th>例</th></tr>
+        <tr><td>表</td><td></td><td>`wrestlers`</td></tr>
+        <tr><td>行</td><td></td><td>1人の力士データ</td></tr>
+        <tr><td>列</td><td></td><td>`height`, `weight`</td></tr>
+        <tr><td>主キー</td><td></td><td>`id`</td></tr>
+      </table>
+      <p>さらに、`Wrestler` モデルから全データを取得し、体重が重い順に並べるRuby/Active Recordのコード例を書きなさい。</p>
+      <div class="solution">
+        <table>
+          <tr><th>データベース側</th><th>Ruby/Active Record側</th><th>例</th></tr>
+          <tr><td>表</td><td>クラス</td><td>`wrestlers` ↔ `Wrestler`</td></tr>
+          <tr><td>行</td><td>オブジェクト/インスタンス</td><td>1人の力士データ ↔ `wrestler`</td></tr>
+          <tr><td>列</td><td>属性、getter/setterメソッド</td><td>`height`, `weight` ↔ `wrestler.height`</td></tr>
+          <tr><td>主キー</td><td>オブジェクトを識別するid属性</td><td>`id` ↔ `wrestler.id`</td></tr>
+        </table>
+<pre>wrestlers = Wrestler.order(weight: :desc)
+
+wrestlers.each do |wrestler|
+  puts "#{wrestler.name}: #{wrestler.weight}kg"
+end</pre>
+        <p>授業では「規約に従うと、表名は複数形、モデルクラス名は単数形」という対応が重要です。</p>
+      </div>
+    </div>
+
+    <div class="problem">
+      <h2>8. コードの分類 <span class="score">20点</span></h2>
+      <p>次の断片を「HTML / CSS / Ruby / ERB / Active Record / コマンド / ファイル名」のどれかに分類し、さらに細かく説明しなさい。</p>
+      <ol>
+        <li>`padding`</li>
+        <li>`&lt;section&gt;`</li>
+        <li>`&lt;%= wrestler.weight %&gt;`</li>
+        <li>`(1..100).each do |n|`</li>
+        <li>`servlet_request.query['exponent']`</li>
+        <li>`ruby 4A_convert_marks_cgi.rb`</li>
+        <li>`my_stylesheet.css`</li>
+        <li>`background-color`</li>
+        <li>`Wrestler.all`</li>
+        <li>`&lt;input type="submit"&gt;`</li>
+      </ol>
+      <div class="solution">
+        <ol>
+          <li>CSSのプロパティ。箱の内側の余白を指定する。</li>
+          <li>HTML要素。文書内の一つの節を表す構造的マークアップ。</li>
+          <li>ERB。Ruby式 `wrestler.weight` の結果をHTMLへ出力する。</li>
+          <li>Ruby。Rangeに対して `each` で反復し、block変数 `n` を使う。</li>
+          <li>Ruby/ERB内のWebパラメータ取得。クエリの `exponent` の値を文字列として取り出す。</li>
+          <li>コマンド。Rubyプログラムをコマンドプロンプトで実行する。</li>
+          <li>ファイル名。CSSスタイルシートのファイル。</li>
+          <li>CSSのプロパティ。背景色を指定する。</li>
+          <li>Active Record/Ruby。`wrestlers` 表に対応する全オブジェクトを取得する。</li>
+          <li>HTML要素。フォーム送信用のボタン。</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="bundle-section" id="variants">
+    <h1>過去問型バリエーション</h1>
+
+    <section class="test">
+      <h2>バージョンA: CSS・HTML寄り</h2>
+      <div class="problem">
+        <h3>A1. CSSの枠を読む <span class="score">10点</span></h3>
+<pre>.box {
+  border: 2pt solid blue;
+  border-top-color: red;
+  border-right-width: 5pt;
+  border-bottom-style: dashed;
+}</pre>
+        <p>上下左右の幅、スタイル、色を表にしなさい。</p>
+        <div class="solution">
+          <table>
+            <tr><th></th><th>上</th><th>右</th><th>下</th><th>左</th></tr>
+            <tr><th>幅</th><td>2pt</td><td>5pt</td><td>2pt</td><td>2pt</td></tr>
+            <tr><th>スタイル</th><td>solid</td><td>solid</td><td>dashed</td><td>solid</td></tr>
+            <tr><th>色</th><td>red</td><td>blue</td><td>blue</td><td>blue</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>A2. HTMLの表 <span class="score">6点</span></h3>
+        <p>HTMLの表を作るために使う主な要素をすべて書き、役割を説明しなさい。</p>
+        <div class="solution">
+          <ul>
+            <li>`table`: 表全体。</li>
+            <li>`tbody`: 表の本体。小さい表では省略されることもあるが、構造として重要。</li>
+            <li>`tr`: table row、表の1行。</li>
+            <li>`th`: table header、見出しセル。</li>
+            <li>`td`: table data、普通のデータセル。</li>
+            <li>必要に応じて `thead`, `tfoot`, `caption` も使える。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>A3. HTMLのリストと全体構造 <span class="score">12点</span></h3>
+        <p>HTMLの箇条書きに使う要素をすべて書きなさい。また、Webページ全体の構造でよく使うHTML要素を6個挙げなさい。</p>
+        <div class="solution">
+          <p>箇条書き:</p>
+          <ul>
+            <li>`ul`: unordered list、番号なしリスト。</li>
+            <li>`ol`: ordered list、番号付きリスト。</li>
+            <li>`dl`: definition list、定義リスト。</li>
+            <li>`li`: `ul` と `ol` の項目。</li>
+            <li>`dt`: `dl` の用語。</li>
+            <li>`dd`: `dl` の説明。</li>
+          </ul>
+          <p>ページ全体の構造でよく使う要素の例:</p>
+          <p>`html`, `head`, `body`, `title`, `header`, `nav`, `main`, `section`, `footer` などから6個。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="test">
+      <h2>バージョンB: Ruby・ERB寄り</h2>
+      <div class="problem">
+        <h3>B1. ERBで表を作る <span class="score">14点</span></h3>
+        <p>1から20までの整数 `n` について、`n`, `n*n`, `n**3` の3列を持つHTML表をERBで作りなさい。1行目は表見出しにすること。</p>
+        <div class="solution">
+<pre>&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;n&lt;/th&gt;
+      &lt;th&gt;n*n&lt;/th&gt;
+      &lt;th&gt;n**3&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;% (1..20).each do |n| %&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;%= n %&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;%= n*n %&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;%= n**3 %&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;% end %&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>B2. `end` で終わる構文 <span class="score">6点</span></h3>
+        <p>Rubyで `end` によって閉じる構文構造の最初の予約語を6つ書きなさい。</p>
+        <div class="solution">
+          <p>`def`, `class`, `module`, `if`, `unless`, `case`, `while`, `until`, `for`, `begin`, `do` など。6つ書ければよい。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="test">
+      <h2>バージョンC: Q&amp;Aフォーラム型</h2>
+      <div class="problem">
+        <h3>C1. エラーへの回答 <span class="score">15点</span></h3>
+        <p>次の質問に対して、Q&amp;Aフォーラムで返すならどう答えるかを書きなさい。</p>
+        <dl>
+          <dt class="subproblem">`syntax error, unexpected end-of-input, expecting keyword_end` の意味が分かりません。</dt>
+          <dd></dd>
+          <dt class="subproblem">`String can't be coerced into Integer` と出ます。</dt>
+          <dd></dd>
+          <dt class="subproblem">CGIで `Internal Server Error` になり、ページが表示されません。</dt>
+          <dd></dd>
+          <dt class="subproblem">フォームで入力した数値を計算に使うと変です。</dt>
+          <dd></dd>
+          <dt class="subproblem">ブラウザのエラーだけでは原因が分かりません。どこを見ますか。</dt>
+          <dd></dd>
+        </dl>
+        <div class="solution">
+          <dl>
+            <dt>`expecting keyword_end`</dt>
+            <dd>Rubyコードのどこかで `end` が足りない可能性が高い。`def`, `if`, `each do` などの開始と終了を対応させて確認する。</dd>
+            <dt>`String can't be coerced into Integer`</dt>
+            <dd>文字列と整数をそのまま計算している可能性がある。入力値を `.to_i` または `.to_f` で数値に変換する。</dd>
+            <dt>`Internal Server Error`</dt>
+            <dd>CGIなら最初に `Content-Type` ヘッダと空行を正しく出しているか確認する。Rubyの実行エラーも確認する。</dd>
+            <dt>フォーム入力が変</dt>
+            <dd>queryから来る値は文字列。`nil`, 空文字、文字入力、負数などをチェックし、必要ならデフォルト値を使う。</dd>
+            <dt>どこを見るか</dt>
+            <dd>Webサーバを起動したコマンドプロンプトの出力、サーバログ、ブラウザの開発者ツールを確認する。</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="test">
+      <h2>バージョンD: HTTPからDBまで</h2>
+      <div class="problem">
+        <h3>D1. 処理の流れ <span class="score">18点</span></h3>
+        <p>ユーザがフォームに `min_weight=120` と入力し、送信した。サーバ側ではその値を使って、体重120kg以上の力士だけを表で表示する。この流れを、ブラウザ、URI/query、ERB、Active Record、データベースという言葉を使って説明しなさい。</p>
+        <div class="solution">
+          <ol>
+            <li>ブラウザはフォームの入力から、`?min_weight=120` のようなquery partを持つURIを作ってGETリクエストを送る。</li>
+            <li>サーバ側テンプレートでは `servlet_request.query['min_weight']` のように値を取り出す。</li>
+            <li>値は文字列なので、`to_f` や `to_i` で数値へ変換し、空や不正値ならデフォルト値を使う。</li>
+            <li>Active Recordで `Wrestler.where('weight &gt;= ?', min_weight)` のようにデータベースへ条件付き問い合わせを行う。</li>
+            <li>返ってきた `Wrestler` オブジェクトの配列/集合をERBの `each` で回し、HTMLの表として出力する。</li>
+            <li>生成されたHTMLがブラウザへ返り、ユーザに結果が表示される。</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <section class="bundle-section" id="hands-on">
+    <h1>実装トレーニング</h1>
+    <div class="two-col">
+      <div class="mini-card">
+        <h3>30分: HTML/CSS確認</h3>
+        <ol>
+          <li>1つのHTMLページを作る。</li>
+          <li>`header`, `nav`, `main`, `section`, `footer` を入れる。</li>
+          <li>外部CSSを `link` で接続する。</li>
+          <li>`.warning`, `#summary`, `p code`, `p &gt; code` を使ってみる。</li>
+          <li>W3C validatorに通す。</li>
+        </ol>
+      </div>
+      <div class="mini-card">
+        <h3>45分: Ruby/ERB確認</h3>
+        <ol>
+          <li>`convert_mark(mark, exponent)` をRubyで書く。</li>
+          <li>`irb` で `to_i`, `to_f`, `class`, `each` を試す。</li>
+          <li>ERBで1から100までの表を作る。</li>
+          <li>フォームから `exponent` を受け取って表を作り直す。</li>
+          <li>不正な入力にデフォルト値を設定する。</li>
+        </ol>
+      </div>
+      <div class="mini-card">
+        <h3>45分: DB/Active Record確認</h3>
+        <ol>
+          <li>表、行、列、主キー、外部キーの意味を説明する。</li>
+          <li>`Wrestler.all`, `where`, `order` の違いを書く。</li>
+          <li>getter/setterの例を1つずつ書く。</li>
+          <li>表名複数形とクラス名単数形の規約を説明する。</li>
+        </ol>
+      </div>
+      <div class="mini-card">
+        <h3>20分: 口頭チェック</h3>
+        <ol>
+          <li>CGIとERBの違いを30秒で説明。</li>
+          <li>GETフォームのround tripを30秒で説明。</li>
+          <li>ORMの利点を30秒で説明。</li>
+          <li>CSSの時計回り指定を例で説明。</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="bundle-section" id="memorize">
+    <h1>直前暗記</h1>
+    <table>
+      <tr><th>項目</th><th>最低限の答え</th></tr>
+      <tr><td>HTMLの基本構造</td><td>`&lt;!doctype html&gt;`, `html`, `head`, `title`, `body`。</td></tr>
+      <tr><td>構造と見た目の分離</td><td>HTMLは構造/意味、CSSは見た目。再利用性、保守性、データ量、役割分担に利点。</td></tr>
+      <tr><td>CSS規則</td><td>`selector { property: value; }`。</td></tr>
+      <tr><td>時計回り</td><td>4値は上・右・下・左。3値は上・左右・下。2値は上下・左右。</td></tr>
+      <tr><td>Rubyの実行</td><td>`irb` は対話確認、`ruby file.rb` はプログラム実行。</td></tr>
+      <tr><td>Rubyの型変換</td><td>`to_i`, `to_f`, `to_s`。</td></tr>
+      <tr><td>Rangeとeach</td><td>`(1..5).each do |n| ... end`。`..` は終端を含む。</td></tr>
+      <tr><td>CGIの先頭</td><td>`Content-Type: text/html;charset=UTF-8` と空行。その後HTML。</td></tr>
+      <tr><td>ERBタグ</td><td>`&lt;% %&gt;` 実行のみ、`&lt;%= %&gt;` 出力、`&lt;%# %&gt;` コメント。</td></tr>
+      <tr><td>query part</td><td>`?exponent=0.7&amp;step=5`。値は文字列なので変換する。</td></tr>
+      <tr><td>フォーム</td><td>`form method="get"`, `label`, `input type="text"`, `input type="submit"`。</td></tr>
+      <tr><td>ORM対応</td><td>表↔クラス、行↔オブジェクト、列↔属性/getter/setter。</td></tr>
+      <tr><td>規約</td><td>表名は複数形、モデルクラス名は単数形。例: `wrestlers` ↔ `Wrestler`。</td></tr>
+    </table>
+  </section>
+
+  <section class="bundle-section" id="sources">
+    <h1>参照リンク</h1>
+    <ul>
+      <li><a href="https://www.sw.it.aoyama.ac.jp/2026/ITPro2/lecture1.html">2026 ITPro2 Lecture 1: HTML Markup</a></li>
+      <li><a href="https://www.sw.it.aoyama.ac.jp/2026/ITPro2/lecture2.html">2026 ITPro2 Lecture 2: CSS</a></li>
+      <li><a href="https://www.sw.it.aoyama.ac.jp/2026/ITPro2/lecture3.html">2026 ITPro2 Lecture 3: Ruby First Steps</a></li>
+      <li><a href="https://www.sw.it.aoyama.ac.jp/2026/ITPro2/lecture4.html">2026 ITPro2 Lecture 4: CGI and Templates</a></li>
+      <li><a href="https://www.sw.it.aoyama.ac.jp/2026/ITPro2/lecture5.html">2026 ITPro2 Lecture 5: Query Parts and Web Forms</a></li>
+      <li><a href="https://www.sw.it.aoyama.ac.jp/2026/ITPro2/lecture6.html">2026 ITPro2 Lecture 6: Databases and Active Record</a></li>
+      <li><a href="https://www.sw.it.aoyama.ac.jp/2019/Projects2/final/">2019 Projects/ITPro2 final</a></li>
+      <li><a href="https://www.sw.it.aoyama.ac.jp/2022/ITPro2/final/">2022 ITPro2 final</a></li>
+      <li><a href="https://www.sw.it.aoyama.ac.jp/2023/ITPro2/final/">2023 ITPro2 final</a></li>
+      <li><a href="https://www.sw.it.aoyama.ac.jp/2024/ITPro2/final/">2024 ITPro2 final</a></li>
+      <li><a href="https://www.sw.it.aoyama.ac.jp/2025/ITPro2/final/">2025 ITPro2 final</a></li>
+    </ul>
+  </section>
+
+  <script>
+    function addAnswerToggle(container, heading, showLabel, hideLabel) {
+      if (!container || !heading || heading.querySelector(".answer-toggle")) return;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "answer-toggle";
+      button.setAttribute("aria-pressed", "false");
+      button.textContent = showLabel;
+      button.addEventListener("click", function () {
+        const showing = container.classList.toggle("show-answer");
+        button.setAttribute("aria-pressed", showing ? "true" : "false");
+        button.textContent = showing ? hideLabel : showLabel;
+      });
+      heading.appendChild(button);
+    }
+
+    document.querySelectorAll(".bundle-section").forEach(function (section) {
+      addAnswerToggle(section, section.querySelector(":scope > h1"), "この章の解答を表示", "この章の解答を隠す");
+    });
+    document.querySelectorAll(".test").forEach(function (test) {
+      addAnswerToggle(test, test.querySelector(":scope > h2"), "この版の解答を表示", "この版の解答を隠す");
+    });
+    document.querySelectorAll(".problem").forEach(function (problem) {
+      addAnswerToggle(problem, problem.querySelector(":scope > h2, :scope > h3"), "解答を表示", "解答を隠す");
+    });
+
+    document.addEventListener("keydown", function (event) {
+      const tagName = document.activeElement && document.activeElement.tagName;
+      if (tagName === "INPUT" || tagName === "TEXTAREA" || tagName === "SELECT") return;
+      if (event.key === "s" || event.key === "S") {
+        document.body.classList.toggle("show-solutions");
+      }
+    });
+  </script>
+</body>
+</html>
