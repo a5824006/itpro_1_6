@@ -17,6 +17,7 @@
       --warn: #8a5a00;
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: "Yu Gothic", "Meiryo", system-ui, sans-serif;
       line-height: 1.58;
@@ -44,12 +45,14 @@
     table {
       border-collapse: collapse;
       width: 100%;
+      max-width: 100%;
       margin: 0.6em 0 1em;
     }
     th, td {
       border: 1px solid var(--line);
       padding: 6px 8px;
       vertical-align: top;
+      overflow-wrap: anywhere;
     }
     th { background: #eee; }
     pre {
@@ -86,6 +89,12 @@
       display: inline-block;
       margin: 4px 16px 4px 0;
       white-space: nowrap;
+    }
+    .layout {
+      display: block;
+    }
+    .content {
+      min-width: 0;
     }
     .bundle-section {
       margin-top: 2em;
@@ -179,7 +188,35 @@
         padding: 7px 9px;
       }
       .two-col { grid-template-columns: 1fr; }
-      table { font-size: 14px; }
+      table {
+        display: block;
+        overflow-x: auto;
+        font-size: 14px;
+        -webkit-overflow-scrolling: touch;
+      }
+      th, td {
+        min-width: 7.5em;
+      }
+    }
+    @media (min-width: 1040px) {
+      .layout {
+        display: grid;
+        grid-template-columns: 235px minmax(0, 1fr);
+        gap: 24px;
+        align-items: start;
+      }
+      .toc {
+        position: sticky;
+        top: 16px;
+        max-height: calc(100vh - 32px);
+        overflow-y: auto;
+        margin: 2em 0 0;
+      }
+      .toc a {
+        display: block;
+        margin: 6px 0 0;
+        white-space: normal;
+      }
     }
     @media print {
       .note, .toc, .answer-toggle { display: none; }
@@ -192,7 +229,8 @@
 <body>
   <h1 id="top">ITPro2 第1-6回 中間テスト対策</h1>
   <p class="note">`compiler_1_5` と同じ形式の、GitHub Pages向け単一HTMLです。各問題の「解答を表示」ボタン、または <kbd>S</kbd> キーで解答の表示/非表示を切り替えられます。</p>
-  <div class="toc">
+  <div class="layout">
+  <nav class="toc" aria-label="目次">
     <strong>目次:</strong>
     <a href="#range">範囲マップ</a>
     <a href="#trend">過去問傾向</a>
@@ -201,7 +239,9 @@
     <a href="#hands-on">実装トレーニング</a>
     <a href="#memorize">直前暗記</a>
     <a href="#sources">参照リンク</a>
-  </div>
+  </nav>
+
+  <main class="content">
 
   <section class="bundle-section" id="range">
     <h1>範囲マップ</h1>
@@ -714,10 +754,13 @@ end</pre>
       <li><a href="https://www.sw.it.aoyama.ac.jp/2025/ITPro2/final/">2025 ITPro2 final</a></li>
     </ul>
   </section>
+  </main>
+  </div>
 
   <script>
     function addAnswerToggle(container, heading, showLabel, hideLabel) {
       if (!container || !heading || heading.querySelector(".answer-toggle")) return;
+      if (!container.querySelector(".solution")) return;
       const button = document.createElement("button");
       button.type = "button";
       button.className = "answer-toggle";
