@@ -91,6 +91,23 @@
       margin: 4px 16px 4px 0;
       white-space: nowrap;
     }
+    .toc-sublist {
+      list-style: none;
+      margin: 0 0 6px 12px;
+      padding: 0;
+      font-size: 13px;
+    }
+    .toc-sublist li {
+      margin: 0;
+    }
+    .toc-sublist a {
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+    .toc-sublist a::before {
+      content: "- ";
+      color: var(--muted);
+    }
     .category-toc {
       border-left: 4px solid var(--accent);
       background: #f4f8fa;
@@ -250,6 +267,12 @@
         margin: 6px 0 0;
         white-space: normal;
       }
+      .toc-sublist {
+        margin: 2px 0 8px 12px;
+      }
+      .toc-sublist a {
+        margin: 3px 0 0;
+      }
     }
     @media print {
       .note, .toc, .category-toc, .answer-toggle { display: none; }
@@ -269,6 +292,13 @@
     <a href="#trend">過去問傾向</a>
     <a href="#basic">模擬テスト基本セット</a>
     <a href="#variants">過去問型バリエーション</a>
+    <ul class="toc-sublist">
+      <li><a href="#variant-a">A: CSS・HTML寄り</a></li>
+      <li><a href="#variant-b">B: Ruby・ERB寄り</a></li>
+      <li><a href="#variant-c">C: Q&amp;Aフォーラム型</a></li>
+      <li><a href="#variant-d">D: HTTPからDBまで</a></li>
+      <li><a href="#variant-e">E: コメント・図・出力解釈</a></li>
+    </ul>
     <a href="#hands-on">実装トレーニング</a>
     <a href="#memorize">直前暗記</a>
     <a href="#sources">参照リンク</a>
@@ -565,7 +595,7 @@ end</pre>
   <section class="bundle-section" id="variants">
     <h1>過去問型バリエーション</h1>
 
-    <section class="test">
+    <section class="test" id="variant-a">
       <h2>バージョンA: CSS・HTML寄り</h2>
       <div class="problem">
         <h3>A1. CSSの枠を読む <span class="score">10点</span></h3>
@@ -724,7 +754,7 @@ code { font-size: 90%; }</pre>
       </div>
     </section>
 
-    <section class="test">
+    <section class="test" id="variant-b">
       <h2>バージョンB: Ruby・ERB寄り</h2>
       <div class="problem">
         <h3>B1. ERBで表を作る <span class="score">14点</span></h3>
@@ -880,7 +910,7 @@ end</pre>
       </div>
     </section>
 
-    <section class="test">
+    <section class="test" id="variant-c">
       <h2>バージョンC: Q&amp;Aフォーラム型</h2>
       <div class="problem">
         <h3>C1. エラーへの回答 <span class="score">15点</span></h3>
@@ -1022,7 +1052,7 @@ end</pre>
       </div>
     </section>
 
-    <section class="test">
+    <section class="test" id="variant-d">
       <h2>バージョンD: HTTPからDBまで</h2>
       <div class="problem">
         <h3>D1. 処理の流れ <span class="score">18点</span></h3>
@@ -1190,7 +1220,7 @@ end
       </div>
     </section>
 
-    <section class="test">
+    <section class="test" id="variant-e">
       <h2>バージョンE: コメント・図・出力解釈</h2>
       <div class="problem">
         <h3>E1. 授業へのコメントを書く <span class="score">6点</span></h3>
@@ -1490,6 +1520,7 @@ wrestlers = Wrestler.order("weight DESC").limit(100)
     }
 
     document.querySelectorAll(".bundle-section").forEach(function (section) {
+      if (section.id === "variants" || section.id === "hands-on") return;
       const headings = Array.from(section.querySelectorAll(":scope > .problem > h2, :scope > .test > h2, :scope > .two-col > .mini-card > h3"));
       addCategoryToc(section, section.querySelector(":scope > h1"), headings, "このカテゴリの目次:");
     });
