@@ -585,6 +585,110 @@ end</pre>
           <p>`html`, `head`, `body`, `title`, `header`, `nav`, `main`, `section`, `footer` などから6個。</p>
         </div>
       </div>
+
+      <div class="problem">
+        <h3>A4. CSS指定を書く <span class="score">15点</span></h3>
+        <p>次の指定をCSSで書きなさい。できるだけ読みやすく、必要なら複数行に分けること。</p>
+        <ol>
+          <li>本文全体のフォントをゴシック系にし、行間を1.7にする。</li>
+          <li>`h1` の文字色を濃い青、下線ではなく下枠線を2px solidで付ける。</li>
+          <li>`class="warning"` の要素は背景を薄い黄色、左枠を5px solid orangeにする。</li>
+          <li>`nav` の中の `a` だけ、下線を消す。</li>
+          <li>`main` 直下の `section` だけ、外側余白を上下1em、左右0にする。</li>
+        </ol>
+        <div class="solution">
+<pre>body {
+  font-family: sans-serif;
+  line-height: 1.7;
+}
+
+h1 {
+  color: navy;
+  border-bottom: 2px solid navy;
+}
+
+.warning {
+  background-color: #fff8cc;
+  border-left: 5px solid orange;
+}
+
+nav a {
+  text-decoration: none;
+}
+
+main &gt; section {
+  margin: 1em 0;
+}</pre>
+          <p>`nav a` は子孫結合子、`main &gt; section` は子結合子です。過去問では「指定をCSSで書く」形が頻出です。</p>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>A5. セレクタと最小マークアップ <span class="score">12点</span></h3>
+        <p>次のCSSセレクタが文字列 `Hello World!` を選択する、できるだけ短いHTMLを書きなさい。</p>
+        <ol>
+          <li>`p code`</li>
+          <li>`main &gt; p.warning`</li>
+          <li>`#summary strong`</li>
+          <li>`ul.items &gt; li`</li>
+        </ol>
+        <div class="solution">
+<pre>&lt;p&gt;&lt;code&gt;Hello World!&lt;/code&gt;&lt;/p&gt;
+
+&lt;main&gt;&lt;p class="warning"&gt;Hello World!&lt;/p&gt;&lt;/main&gt;
+
+&lt;p id="summary"&gt;&lt;strong&gt;Hello World!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul class="items"&gt;&lt;li&gt;Hello World!&lt;/li&gt;&lt;/ul&gt;</pre>
+          <p>ポイントは、空白は「どこか下」、`&gt;` は「直接の子」、`.` はclass、`#` はidです。</p>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>A6. HTMLの誤りを直す <span class="score">12点</span></h3>
+        <p>次のHTMLには構造上よくない点があります。問題点を指摘し、修正版を書きなさい。</p>
+<pre>&lt;h1&gt;Marks&lt;/h2&gt;
+&lt;p&gt;Result is &lt;strong&gt;important.&lt;/p&gt;&lt;/strong&gt;
+&lt;ul&gt;
+  &lt;p&gt;Ruby&lt;/p&gt;
+  &lt;p&gt;CSS&lt;/p&gt;
+&lt;/ul&gt;</pre>
+        <div class="solution">
+          <ul>
+            <li>`h1` の終了タグが `h2` になっている。</li>
+            <li>`strong` と `p` の入れ子が交差している。</li>
+            <li>`ul` の直接の子は `li` にする。</li>
+          </ul>
+<pre>&lt;h1&gt;Marks&lt;/h1&gt;
+&lt;p&gt;Result is &lt;strong&gt;important.&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Ruby&lt;/li&gt;
+  &lt;li&gt;CSS&lt;/li&gt;
+&lt;/ul&gt;</pre>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>A7. CSSの衝突と継承 <span class="score">14点</span></h3>
+        <p>次のHTMLとCSSについて、`Hello` の色、背景色、文字サイズがどうなるか説明しなさい。</p>
+<pre>&lt;body&gt;
+  &lt;main id="content"&gt;
+    &lt;p class="warning"&gt;&lt;code&gt;Hello&lt;/code&gt;&lt;/p&gt;
+  &lt;/main&gt;
+&lt;/body&gt;</pre>
+<pre>body { color: black; font-size: 16px; }
+p { color: blue; background-color: white; }
+.warning { color: red; }
+#content code { background-color: #eee; }
+code { font-size: 90%; }</pre>
+        <div class="solution">
+          <ul>
+            <li>色は `red`。`code` 自身には `color` がないため親の `p.warning` から継承され、`.warning` が `p` より優先される。</li>
+            <li>背景色は `#eee`。`#content code` が `code` に直接指定しているため。</li>
+            <li>文字サイズは `16px` の90%、つまり約 `14.4px`。`code { font-size: 90%; }` が親のサイズに対して効く。</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
     <section class="test">
@@ -617,6 +721,128 @@ end</pre>
         <p>Rubyで `end` によって閉じる構文構造の最初の予約語を6つ書きなさい。</p>
         <div class="solution">
           <p>`def`, `class`, `module`, `if`, `unless`, `case`, `while`, `until`, `for`, `begin`, `do` など。6つ書ければよい。</p>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>B3. CからRubyへ <span class="score">16点</span></h3>
+        <p>次のCの関数と同じ働きをするRubyのメソッドを書きなさい。できるだけRubyらしく書くこと。</p>
+<pre>int letter_mark(int mark)
+{
+    if (mark &gt;= 90) return 5;
+    if (mark &gt;= 80) return 4;
+    if (mark &gt;= 70) return 3;
+    if (mark &gt;= 60) return 2;
+    return 1;
+}</pre>
+        <div class="solution">
+<pre>def letter_mark(mark)
+  if mark &gt;= 90
+    5
+  elsif mark &gt;= 80
+    4
+  elsif mark &gt;= 70
+    3
+  elsif mark &gt;= 60
+    2
+  else
+    1
+  end
+end</pre>
+          <p>Rubyでは最後に評価された式が戻り値になります。`else if` ではなく `elsif` です。</p>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>B4. Ruby構文の説明 <span class="score">15点</span></h3>
+        <p>次のRuby構文・式の意味や使い方を簡単に説明しなさい。</p>
+        <ol>
+          <li>`(1..10)`</li>
+          <li>`array.each do |item| ... end`</li>
+          <li>`"mark is #{mark}"`</li>
+          <li>`"80".to_i`</li>
+          <li>`nil`</li>
+          <li>`3.odd?`</li>
+          <li>`@name`</li>
+          <li>`puts` と `print` の違い</li>
+        </ol>
+        <div class="solution">
+          <ol>
+            <li>1から10まで、両端を含むRange。</li>
+            <li>配列の各要素に対してblockを実行する反復。</li>
+            <li>ダブルクォート文字列内の式展開。`mark` の値を文字列に埋め込む。</li>
+            <li>文字列 `"80"` を整数 `80` に変換する。</li>
+            <li>値がないことを表すRubyのオブジェクト。</li>
+            <li>メソッド名が `?` で終わる述語メソッド。奇数なら `true`。</li>
+            <li>インスタンス変数。オブジェクトごとの状態を持つ。</li>
+            <li>`puts` は最後に改行を付ける。`print` はそのまま出力する。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>B5. ERBで箇条書きを作る <span class="score">18点</span></h3>
+        <p>次のデータがあるとする。各学生について `name: converted points` の形の番号付きリストをERBで出力しなさい。</p>
+<pre>&lt;% students = [
+  ["Alice", 92],
+  ["Bob", 74],
+  ["Chika", 58]
+] %&gt;</pre>
+        <div class="solution">
+<pre>&lt;ol&gt;
+  &lt;% students.each do |student| %&gt;
+    &lt;li&gt;&lt;%= student[0] %&gt;: &lt;%= convert_mark(student[1], 0.7) %&gt; points&lt;/li&gt;
+  &lt;% end %&gt;
+&lt;/ol&gt;</pre>
+          <p>表示したい値には `&lt;%= ... %&gt;`、反復の制御には `&lt;% ... %&gt;` を使います。</p>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>B6. CGIをERBへ書き換える <span class="score">18点</span></h3>
+        <p>次のCGI風Ruby出力を、ERBテンプレートとして書き直しなさい。</p>
+<pre>puts "Content-Type: text/html;charset=UTF-8\r\n\r\n"
+puts "&lt;!doctype html&gt;"
+puts "&lt;html&gt;&lt;body&gt;"
+puts "&lt;table&gt;"
+(1..3).each do |n|
+  puts "&lt;tr&gt;&lt;td&gt;#{n}&lt;/td&gt;&lt;td&gt;#{n*n}&lt;/td&gt;&lt;/tr&gt;"
+end
+puts "&lt;/table&gt;"
+puts "&lt;/body&gt;&lt;/html&gt;"</pre>
+        <div class="solution">
+<pre>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;body&gt;
+  &lt;table&gt;
+    &lt;% (1..3).each do |n| %&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;%= n %&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;%= n*n %&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;% end %&gt;
+  &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+          <p>ERBはHTMLを中心に書けるので、`puts` の連続より表構造が読みやすくなります。</p>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>B7. パラメータ処理を書く <span class="score">16点</span></h3>
+        <p>`servlet_request.query["exponent"]` から指数を取り出す。未指定、空文字、数値として不自然な値の場合は `0.7` を使うRubyコードを書きなさい。</p>
+        <div class="solution">
+<pre>exponent_text = servlet_request.query["exponent"]
+
+if exponent_text.nil? || exponent_text == ""
+  exponent = 0.7
+else
+  exponent = exponent_text.to_f
+  if exponent &lt;= 0 || exponent &gt; 2
+    exponent = 0.7
+  end
+end</pre>
+          <p>実際には文字だけの入力も `to_f` で `0.0` になり得るので、範囲チェックを組み合わせるのが大事です。</p>
         </div>
       </div>
     </section>
@@ -653,6 +879,114 @@ end</pre>
           </dl>
         </div>
       </div>
+
+      <div class="problem">
+        <h3>C2. HTML/CSSのトラブル <span class="score">15点</span></h3>
+        <p>次の質問に対して、原因の候補と確認方法を答えなさい。</p>
+        <dl>
+          <dt class="subproblem">CSSを書いたのに、ページの見た目が全く変わりません。</dt>
+          <dd></dd>
+          <dt class="subproblem">`.warning` の指定が効きません。</dt>
+          <dd></dd>
+          <dt class="subproblem">`p &gt; code` に指定したのに、文中のcodeに効くものと効かないものがあります。</dt>
+          <dd></dd>
+          <dt class="subproblem">リストの表示がvalidatorで怒られます。</dt>
+          <dd></dd>
+        </dl>
+        <div class="solution">
+          <dl>
+            <dt>CSSが全く効かない</dt>
+            <dd>`head` 内の `link rel="stylesheet" href="..."` のファイル名、場所、拡張子を確認する。ブラウザのキャッシュも疑う。</dd>
+            <dt>`.warning` が効かない</dt>
+            <dd>HTML側が `class="warning"` になっているか確認する。`id="warning"` とは別物。</dd>
+            <dt>`p &gt; code` が一部効かない</dt>
+            <dd>`&gt;` は直接の子だけ。`p` の中に `span` などを挟んだ `code` には効かない。</dd>
+            <dt>リストのvalidatorエラー</dt>
+            <dd>`ul` や `ol` の直接の子を `li` にする。`p` を直接入れない。</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>C3. Ruby/ERBのトラブル <span class="score">18点</span></h3>
+        <p>次の質問に対して、どこを直すべきか答えなさい。</p>
+        <dl>
+          <dt class="subproblem">ERBで計算結果を書いたつもりなのに、画面に何も出ません。</dt>
+          <dd></dd>
+          <dt class="subproblem">`undefined local variable or method 'exponent'` と出ます。</dt>
+          <dd></dd>
+          <dt class="subproblem">`undefined method '[]' for nil:NilClass` と出ます。</dt>
+          <dd></dd>
+          <dt class="subproblem">フォームに前回入力した値が残りません。</dt>
+          <dd></dd>
+        </dl>
+        <div class="solution">
+          <dl>
+            <dt>画面に出ない</dt>
+            <dd>出力したい式は `&lt;%= ... %&gt;` を使う。`&lt;% ... %&gt;` は実行だけで出力しない。</dd>
+            <dt>`exponent` 未定義</dt>
+            <dd>使用前に `exponent = ...` を代入しているか、分岐のどの経路でも値が入るかを確認する。</dd>
+            <dt>`[] for nil`</dt>
+            <dd>配列やHashだと思っている値が `nil`。queryのキー名違い、データ未取得、空データを確認する。</dd>
+            <dt>入力値が残らない</dt>
+            <dd>`input` の `value` 属性に、処理後の現在値を `&lt;%= exponent %&gt;` のように入れる。</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>C4. Webサーバ/CGIのトラブル <span class="score">14点</span></h3>
+        <p>ローカルでWebページを出す課題で、次の状況が起きた。回答を書きなさい。</p>
+        <dl>
+          <dt class="subproblem">`http://localhost:3000/foo.rb` にアクセスしても接続できません。</dt>
+          <dd></dd>
+          <dt class="subproblem">Rubyファイルをダブルクリックしたら一瞬で閉じます。</dt>
+          <dd></dd>
+          <dt class="subproblem">ブラウザには古い内容が表示され続けます。</dt>
+          <dd></dd>
+          <dt class="subproblem">日本語が文字化けします。</dt>
+          <dd></dd>
+        </dl>
+        <div class="solution">
+          <dl>
+            <dt>接続できない</dt>
+            <dd>Webサーバが起動しているか、ポート番号が正しいか、コマンドプロンプトにエラーが出ていないか確認する。</dd>
+            <dt>一瞬で閉じる</dt>
+            <dd>ダブルクリックではなく、Rubyが使えるコマンドプロンプトで `ruby file.rb` の形で実行し、エラーを見る。</dd>
+            <dt>古い内容</dt>
+            <dd>保存し忘れ、別ファイルを編集、ブラウザキャッシュ、サーバ再起動が必要な場合を確認する。</dd>
+            <dt>文字化け</dt>
+            <dd>HTMLの `meta charset="utf-8"` と、CGIの `Content-Type: text/html;charset=UTF-8` を確認する。</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>C5. データベース/Active Recordのトラブル <span class="score">16点</span></h3>
+        <p>第6回の課題を進めている学生への回答として、どう説明すべきか書きなさい。</p>
+        <dl>
+          <dt class="subproblem">`Wrestler.all` は動くのに、`wrestler.heigth` が `NoMethodError` になります。</dt>
+          <dd></dd>
+          <dt class="subproblem">並び替えたいのに、表示順が思った通りになりません。</dt>
+          <dd></dd>
+          <dt class="subproblem">平均身長を計算すると整数っぽく丸まってしまいます。</dt>
+          <dd></dd>
+          <dt class="subproblem">表名とクラス名の関係が分かりません。</dt>
+          <dd></dd>
+        </dl>
+        <div class="solution">
+          <dl>
+            <dt>`heigth` エラー</dt>
+            <dd>列名/属性名のスペルミス。`height` など、データベースの列名と一致しているか確認する。</dd>
+            <dt>表示順</dt>
+            <dd>`Wrestler.order(weight: :desc)` のようにActive Record側で並び替える。HTML表の順序は取得した順序に従う。</dd>
+            <dt>平均が丸まる</dt>
+            <dd>整数同士の計算になっていないか確認し、`to_f` を使って実数計算にする。</dd>
+            <dt>表名とクラス名</dt>
+            <dd>規約では表名は小文字の複数形 `wrestlers`、モデルクラスは単数形で大文字開始 `Wrestler`。</dd>
+          </dl>
+        </div>
+      </div>
     </section>
 
     <section class="test">
@@ -669,6 +1003,156 @@ end</pre>
             <li>返ってきた `Wrestler` オブジェクトの配列/集合をERBの `each` で回し、HTMLの表として出力する。</li>
             <li>生成されたHTMLがブラウザへ返り、ユーザに結果が表示される。</li>
           </ol>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>D2. HTTPからSQLまでの対応 <span class="score">18点</span></h3>
+        <p>「体重120kg以上の力士一覧を見る」処理について、次の表を埋めなさい。</p>
+        <table>
+          <tr><th>段階</th><th>例</th><th>説明</th></tr>
+          <tr><td>URI</td><td></td><td></td></tr>
+          <tr><td>HTTP method</td><td></td><td></td></tr>
+          <tr><td>query parameter</td><td></td><td></td></tr>
+          <tr><td>Ruby value</td><td></td><td></td></tr>
+          <tr><td>Active Record</td><td></td><td></td></tr>
+          <tr><td>SQL operation</td><td></td><td></td></tr>
+          <tr><td>HTML output</td><td></td><td></td></tr>
+        </table>
+        <div class="solution">
+          <table>
+            <tr><th>段階</th><th>例</th><th>説明</th></tr>
+            <tr><td>URI</td><td>`/wrestlers.html.erb?min_weight=120`</td><td>ブラウザが要求する資源と条件。</td></tr>
+            <tr><td>HTTP method</td><td>`GET`</td><td>情報を取得するリクエスト。</td></tr>
+            <tr><td>query parameter</td><td>`min_weight=120`</td><td>名前と値の組。値は最初は文字列。</td></tr>
+            <tr><td>Ruby value</td><td>`min_weight = "120".to_f`</td><td>計算や比較のため数値に変換。</td></tr>
+            <tr><td>Active Record</td><td>`Wrestler.where("weight &gt;= ?", min_weight)`</td><td>モデル経由で条件検索。</td></tr>
+            <tr><td>SQL operation</td><td>`SELECT`</td><td>データベースから行を取得。</td></tr>
+            <tr><td>HTML output</td><td>`table`, `tr`, `td`</td><td>取得したオブジェクトを表として表示。</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>D3. Active Recordコードを書く <span class="score">20点</span></h3>
+        <p>`Wrestler` モデルに `name`, `height`, `weight`, `stable` がある。次のコードを書きなさい。</p>
+        <ol>
+          <li>全力士を取得する。</li>
+          <li>体重が重い順に取得する。</li>
+          <li>身長180以上の力士だけ取得する。</li>
+          <li>最初の1人を作成して保存する。</li>
+          <li>全員について `name`, `height`, `weight` を出力する。</li>
+        </ol>
+        <div class="solution">
+<pre>all_wrestlers = Wrestler.all
+
+heavy_first = Wrestler.order(weight: :desc)
+
+tall_wrestlers = Wrestler.where("height &gt;= ?", 180)
+
+wrestler = Wrestler.new
+wrestler.name = "Aoyama"
+wrestler.height = 182
+wrestler.weight = 130
+wrestler.stable = "Sagamihara"
+wrestler.save
+
+Wrestler.all.each do |w|
+  puts "#{w.name}: #{w.height}cm, #{w.weight}kg"
+end</pre>
+          <p>`w.name` などは列に対応するgetterです。`w.name = ...` はsetterです。</p>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>D4. ORMと規約の説明 <span class="score">18点</span></h3>
+        <p>ORMとActive Recordについて、次の部分問題に答えなさい。</p>
+        <ol>
+          <li>ORMの正式名称と役割を説明しなさい。</li>
+          <li>Active RecordがORMとして何をしてくれるか説明しなさい。</li>
+          <li>`wrestlers` 表と `Wrestler` クラスの関係を「設定より規約」と結び付けて説明しなさい。</li>
+          <li>規約に従う利点と欠点を一つずつ書きなさい。</li>
+        </ol>
+        <div class="solution">
+          <ol>
+            <li>ORMはObject-Relational Mapping/Mapper。オブジェクト指向のクラス/オブジェクトと、リレーショナルDBの表/行/列を対応させる。</li>
+            <li>Active Recordにより、SQLを直接書かなくても `Wrestler.all` や `wrestler.weight` のようにRubyオブジェクトとしてDBを扱える。</li>
+            <li>Rails/Active Recordの規約では、表名は小文字複数形、モデルクラス名は単数形。`wrestlers` と `Wrestler` はその規約で対応する。</li>
+            <li>利点は設定が少なく、他人のコードも読みやすいこと。欠点は規約を知らないと裏で何が起きているか分かりにくいこと。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>D5. 統計値を計算する <span class="score">16点</span></h3>
+        <p>`wrestlers = Wrestler.all` に対して、人数、平均身長、平均体重、最大体重を計算するRubyコードを書きなさい。データが0件の場合も考慮すること。</p>
+        <div class="solution">
+<pre>wrestlers = Wrestler.all
+count = wrestlers.count
+
+if count == 0
+  average_height = 0
+  average_weight = 0
+  max_weight = 0
+else
+  total_height = 0.0
+  total_weight = 0.0
+  max_weight = 0
+
+  wrestlers.each do |w|
+    total_height += w.height
+    total_weight += w.weight
+    if w.weight &gt; max_weight
+      max_weight = w.weight
+    end
+  end
+
+  average_height = total_height / count
+  average_weight = total_weight / count
+end</pre>
+          <p>発展としては `map`, `sum`, `maximum` なども使えますが、試験では処理の流れを手で書けることが大切です。</p>
+        </div>
+      </div>
+
+      <div class="problem">
+        <h3>D6. フォームから表まで作る <span class="score">24点</span></h3>
+        <p>`stable` という部屋名をフォームで受け取り、その部屋に所属する力士だけをHTML表で表示するERBコードの骨組みを書きなさい。未指定の場合は全員を表示してよい。</p>
+        <div class="solution">
+<pre>&lt;%
+stable = servlet_request.query["stable"]
+
+if stable.nil? || stable == ""
+  wrestlers = Wrestler.all
+else
+  wrestlers = Wrestler.where(stable: stable)
+end
+%&gt;
+
+&lt;form method="get"&gt;
+  &lt;label for="stable"&gt;Stable: &lt;/label&gt;
+  &lt;input type="text" id="stable" name="stable" value="&lt;%= stable %&gt;"&gt;
+  &lt;input type="submit" value="Search"&gt;
+&lt;/form&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Name&lt;/th&gt;
+      &lt;th&gt;Height&lt;/th&gt;
+      &lt;th&gt;Weight&lt;/th&gt;
+      &lt;th&gt;Stable&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;% wrestlers.each do |w| %&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;%= w.name %&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;%= w.height %&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;%= w.weight %&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;%= w.stable %&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;% end %&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre>
+          <p>第5回のフォーム、第6回のActive Record、第4回のERB表作成をまとめた問題です。</p>
         </div>
       </div>
     </section>
